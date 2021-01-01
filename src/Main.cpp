@@ -23,6 +23,8 @@ int main(){
     DataHandler dh;
     dh.prepareData("/Users/kylesmith/Development/C++_Code_Projects/MachineLearning/KNearestNeighbour/res/train-images.idx3-ubyte", "/Users/kylesmith/Development/C++_Code_Projects/MachineLearning/KNearestNeighbour/res/train-labels.idx1-ubyte");
     Classifier::Train(dh);
+    KNNAlgo::Classify(dh.get_Image_Data(),dh.get_Image_Data()[1].getPixelData(),10);
+
 
 
     
