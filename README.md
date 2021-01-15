@@ -36,7 +36,6 @@ int main(){
         if(eval) count++;
     }
 
-    cout << count << "\n";
     cout << "Accuracy: " << (count/iterNum*100) << "%\n";
 
     return 0;
