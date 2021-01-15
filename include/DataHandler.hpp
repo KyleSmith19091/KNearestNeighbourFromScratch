@@ -15,6 +15,8 @@ class DataHandler {
 
         std::vector<Image> image_data;
         std::vector<unsigned char> labels;
+        std::vector<Image> test_image_data;
+        std::vector<unsigned char> test_labels;
 
         constexpr int reverseInt (int i){
             unsigned char c1=0, c2=0, c3=0, c4=0;
@@ -25,13 +27,14 @@ class DataHandler {
             return ((int)c1 << 24) + ((int)c2 << 16) + ((int)c3 << 8) + c4;
         };
 
-        void read_Image_File(const std::string& image_file_path);
-        void read_Label_File(const std::string& label_file_path);
+        void read_Image_File(const std::string& image_file_path, bool);
+        void read_Label_File(const std::string& label_file_path, bool);
 
     public:
       DataHandler();
       ~DataHandler();
-      void prepareData(const std::string& image_file_path, const std::string label_file_path);
+      void prepareData(const std::string& image_file_path, const std::string& label_file_path, bool=false);
+
 
       int get_Magic_Number_Label();
       int get_Magic_Number_Image();
@@ -40,4 +43,7 @@ class DataHandler {
       int get_Number_Of_Rows()    ;
       int get_Number_Of_Cols()    ;
       std::vector<Image> get_Image_Data();
+      std::vector<Image> get_Test_Image_Data();  
+
+
 };

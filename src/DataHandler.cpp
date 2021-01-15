@@ -14,7 +14,7 @@ DataHandler::DataHandler(){
 
 DataHandler::~DataHandler(){}
 
-void DataHandler::read_Label_File(const std::string &label_file_path){
+void DataHandler::read_Label_File(const std::string &label_file_path, bool test){
     std::ifstream label_file(label_file_path);
 
     if(!label_file.is_open()){
@@ -28,18 +28,18 @@ void DataHandler::read_Label_File(const std::string &label_file_path){
     label_file.read((char*)&number_of_labels,sizeof(number_of_labels));
     this->number_of_labels = reverseInt(number_of_labels);
 
-    this->labels.resize(number_of_labels);
+    !test ? this->labels.resize(number_of_labels) : this->test_labels.resize(number_of_labels);
     unsigned char label;
 
     for(int i = 0; i < number_of_labels; i++){
         label_file.read((char*)&label,sizeof(label));
-        labels[i] = label;
+        !test ? labels[i] = label : test_labels[i] = label;
     }
 
     label_file.close();
 }
 
-void DataHandler::read_Image_File(const std::string &image_file_path){
+void DataHandler::read_Image_File(const std::string &image_file_path,bool test){
     std::ifstream image_file(image_file_path);
 
     if(!image_file.is_open()){
@@ -59,8 +59,7 @@ void DataHandler::read_Image_File(const std::string &image_file_path){
     image_file.read((char*)&number_of_cols,sizeof(number_of_cols));
     this->number_of_cols = reverseInt(number_of_cols);
 
-    image_data.resize(number_of_images);
-    std::vector<std::vector<unsigned char>> pixels(number_of_rows,std::vector<unsigned char>(number_of_cols));
+    !test ? image_data.resize(number_of_images) : this->test_image_data.resize(number_of_images);
 
     for (int i = 0; i < number_of_images; i++) {
       std::vector<std::vector<unsigned char>> pixels(number_of_rows,std::vector<unsigned char>(number_of_cols));
@@ -71,15 +70,15 @@ void DataHandler::read_Image_File(const std::string &image_file_path){
             pixels[j][k] = temp;
         }
       }
-      this->image_data[i] = Image(pixels,this->labels[i]);
+      !test ? this->image_data[i] = Image(pixels,this->labels[i]) : this->test_image_data[i] = Image(pixels,this->test_labels[i]);
     }
 
     image_file.close();
 }
 
-void DataHandler::prepareData(const std::string &image_file_path, const std::string label_file_path){
-    read_Label_File(label_file_path);
-    read_Image_File(image_file_path);
+void DataHandler::prepareData(const std::string &image_file_path, const std::string& label_file_path, bool test){
+    read_Label_File(label_file_path,test);
+    read_Image_File(image_file_path,test);
 }
 
 int DataHandler::get_Magic_Number_Image(){
@@ -110,6 +109,6 @@ std::vector<Image> DataHandler::get_Image_Data(){
     return this->image_data;
 }
 
-
-
-
+std::vector<Image> DataHandler::get_Test_Image_Data(){
+    return this->test_image_data;
+}
