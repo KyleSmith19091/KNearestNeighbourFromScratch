@@ -7,15 +7,13 @@
 class KNNAlgo{
 
     private:
-        static std::vector<Image> data;       
-        static Image query;
         static int mode(std::vector<int>);
-        static void euc_distance(std::vector<std::pair<int, int>>&);
+        static void euc_distance(std::vector<std::pair<int, int>>&, std::vector<Image>, Image);
 
     public:
         KNNAlgo(){};
         ~KNNAlgo(){};
-        bool Classify(std::vector<Image>, Image, int, int (*choice_func)(std::vector<int>));
+        bool Classify(std::vector<Image>, Image, int=10, int (*choice_func)(std::vector<int>)=mode, void (*dist_func)(std::vector<std::pair<int,int>>&, std::vector<Image>, Image)=euc_distance);
 
 };
 #endif
