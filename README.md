@@ -22,8 +22,10 @@ using namespace std;
 int main(){
 
     DataHandler dh;
-    dh.prepareData("/Users/kylesmith/Development/C++_Code_Projects/MachineLearning/KNearestNeighbour/res/train-images.idx3-ubyte", "/Users/kylesmith/Development/C++_Code_Projects/MachineLearning/KNearestNeighbour/res/train-labels.idx1-ubyte",false);
-    dh.prepareData("/Users/kylesmith/Development/C++_Code_Projects/MachineLearning/KNearestNeighbour/res/t10k-images.idx3-ubyte", "/Users/kylesmith/Development/C++_Code_Projects/MachineLearning/KNearestNeighbour/res/t10k-labels.idx1-ubyte",true);
+    // False to specify that it is training dataset
+    dh.prepareData("path_image_file", "path_label_file",false);
+    // True to indicate that data is test dataset
+    dh.prepareData("path_image_file_test", "path_label_file_test",true);
 
     double count = 0;
     double iterNum = 10;
@@ -35,7 +37,7 @@ int main(){
     }
 
     cout << count << "\n";
-    cout << "Accuracy: " << (count/iterNum) << "\n";
+    cout << "Accuracy: " << (count/iterNum*100) << "%\n";
 
     return 0;
 }
